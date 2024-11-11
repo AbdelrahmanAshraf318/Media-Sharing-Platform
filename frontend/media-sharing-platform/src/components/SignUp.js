@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import 'bootstrap/dist/css/bootstrap.min.css';
-import {Navbar, NavbarBrand} from 'reactstrap';
-import { Button, Form, FormGroup, Label, Input, Col, Row, FormFeedback } from "reactstrap";
+import { NavbarBrand, Button, Form, FormGroup, Label, Input, Col, FormFeedback } from "reactstrap";
+import axios from 'axios';
 
 class SignUp extends Component {
     constructor(props) {
@@ -23,7 +23,7 @@ class SignUp extends Component {
         this.handleBlur = this.handleBlur.bind(this);
     }
 
-    handleInputChange(event){
+    handleInputChange(event) {
         const target = event.target;
         const value = target.type === 'checkbox' ? target.checked : target.value;
         const name = target.name;
@@ -31,15 +31,26 @@ class SignUp extends Component {
         this.setState({
             [name]: value
         });
-        
     }
 
-    handleSubmit(event){
+    async handleSubmit(event) {
         event.preventDefault();
         const errors = this.validate(this.state.name, this.state.email, this.state.password, this.state.username);
         if (errors.name || errors.email || errors.password || errors.username) {
             alert("Please fix the errors before submitting.");
             return;
+        }
+
+        try {
+            const response = await axios.post('http://localhost:4000/api/signup', {
+                name: this.state.name,
+                email: this.state.email,
+                username: this.state.username,
+                password: this.state.password,
+            });
+            alert('User created successfully');
+        } catch (err) {
+            alert('User registration failed');
         }
 
         console.log("Current state is: " + JSON.stringify(this.state));
@@ -48,20 +59,20 @@ class SignUp extends Component {
 
     handleBlur = (field) => (evt) => {
         this.setState({
-            touched: { ...this.state.touched, [field]:true}
+            touched: { ...this.state.touched, [field]: true }
         });
     }
 
-    validate(name, email, password, username){
+    validate(name, email, password, username) {
         const errors = {
             name: '',
             email: '',
             password: '',
             username: ''
         };
-        if(this.state.touched.name && !this.state.name.trim() || this.state.name.length < 3){
+        if (this.state.touched.name && (!this.state.name.trim() || this.state.name.length < 3)) {
             errors.name = 'Name must be at least one word and greater than 3 characters, Please try again!';
-        } 
+        }
         if (this.state.touched.password && this.state.password.length < 8) {
             errors.password = 'Password must be at least 8 characters long.';
         }
@@ -85,12 +96,12 @@ class SignUp extends Component {
                             <FormGroup row>
                                 <Label htmlFor="name" md={2}>Name</Label>
                                 <Col md={10}>
-                                    <Input 
-                                        type="text" 
-                                        id="name" 
+                                    <Input
+                                        type="text"
+                                        id="name"
                                         name="name"
-                                        placeholder="Name"  
-                                        value={this.state.name} 
+                                        placeholder="Name"
+                                        value={this.state.name}
                                         valid={this.state.touched.name && errors.name === ''}
                                         invalid={this.state.touched.name && errors.name !== ''}
                                         onBlur={this.handleBlur('name')}
@@ -102,12 +113,12 @@ class SignUp extends Component {
                             <FormGroup row>
                                 <Label htmlFor="email" md={2}>Email</Label>
                                 <Col md={10}>
-                                    <Input 
-                                        type="email" 
-                                        id="email" 
+                                    <Input
+                                        type="email"
+                                        id="email"
                                         name="email"
-                                        placeholder="Email"  
-                                        value={this.state.email} 
+                                        placeholder="Email"
+                                        value={this.state.email}
                                         valid={this.state.touched.email && errors.email === ''}
                                         invalid={this.state.touched.email && errors.email !== ''}
                                         onBlur={this.handleBlur('email')}
@@ -119,12 +130,12 @@ class SignUp extends Component {
                             <FormGroup row>
                                 <Label htmlFor="password" md={2}>Password</Label>
                                 <Col md={10}>
-                                    <Input 
-                                        type="password" 
-                                        id="password" 
+                                    <Input
+                                        type="password"
+                                        id="password"
                                         name="password"
-                                        placeholder="Password"  
-                                        value={this.state.password} 
+                                        placeholder="Password"
+                                        value={this.state.password}
                                         valid={this.state.touched.password && errors.password === ''}
                                         invalid={this.state.touched.password && errors.password !== ''}
                                         onBlur={this.handleBlur('password')}
@@ -136,13 +147,13 @@ class SignUp extends Component {
                             <FormGroup row>
                                 <Label htmlFor="username" md={2}>Username</Label>
                                 <Col md={10}>
-                                    <Input 
-                                        type="text" 
-                                        id="username" 
+                                    <Input
+                                        type="text"
+                                        id="username"
                                         name="username"
-                                        placeholder="Username"  
-                                        value={this.state.username} 
-                                        valid={this.state.touched.usernam && errors.username === ''}
+                                        placeholder="Username"
+                                        value={this.state.username}
+                                        valid={this.state.touched.username && errors.username === ''}
                                         invalid={this.state.touched.username && errors.username !== ''}
                                         onBlur={this.handleBlur('username')}
                                         onChange={this.handleInputChange}

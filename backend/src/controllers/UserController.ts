@@ -1,13 +1,13 @@
 import express from "express";
 
-import {UserModel} from "../models/UserModel";
+import {User} from "../models/User";
 
 class UserController {
 
     // Get all users
     public static async getAllUser(req: express.Request, res: express.Response, next: express.NextFunction): Promise<void>{
         try {
-            const users = await UserModel.find();
+            const users = await User.find();
             res.status(200).json({data: users});
         } catch (error: any) {
             next(error);
@@ -18,7 +18,7 @@ class UserController {
     public static async getUser(req: express.Request, res: express.Response, next: express.NextFunction): Promise<void>{
         try {
             const { id } = req.params;
-            const user = await UserModel.findById(id);
+            const user = await User.findById(id);
             if (!user) {
                 res.status(404).json({ message: "User not found" });
             }
@@ -32,7 +32,7 @@ class UserController {
     public static async createUser(req: express.Request, res: express.Response, next: express.NextFunction): Promise<void>{
         try {
             const {name, email, password, username} = req.body;
-            const user = new UserModel({
+            const user = new User({
                 name,
                 email,
                 password,
@@ -50,7 +50,7 @@ class UserController {
         try {
             const { id } = req.params;
             const {name, email, password, username} = req.body;
-            const user = await UserModel.findById(id);
+            const user = await User.findById(id);
             if (!user) {
                 res.status(404).json({ message: "User not found" });
                 return;
@@ -70,7 +70,7 @@ class UserController {
     public static async deleteUser(req: express.Request, res: express.Response, next: express.NextFunction): Promise<void>{
         try {
             const { id } = req.params;
-            const user = await UserModel.findByIdAndDelete(id);
+            const user = await User.findByIdAndDelete(id);
             if (!user) {
                 res.status(404).json({ message: "User not found" });
                 return;
