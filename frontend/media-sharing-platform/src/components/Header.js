@@ -36,12 +36,12 @@ class Header extends Component {
 
   handleInputChange(event) {
     const target = event.target;
-        const value = target.type === 'checkbox' ? target.checked : target.value;
-        const name = target.name;
+    const value = target.type === 'checkbox' ? target.checked : target.value;
+    const name = target.name;
 
-        this.setState({
-            [name]: value
-        });
+    this.setState({
+        [name]: value
+    });
   }
 
   async handleLogin(event) {
@@ -65,7 +65,7 @@ class Header extends Component {
       alert(`Welcome ${username}!`);
       
       // Redirect the user after successful login
-      window.location.href = '/dashboard';
+      window.location.href = '/media-upload';
     } catch (err) {
         console.log(err);
       alert('Invalid username or password');

@@ -5,6 +5,7 @@ import SignUp from './SignUp';
 import Header from './Header';
 import Footer from './Footer';
 import { Switch, Route, Redirect } from 'react-router-dom';
+import MediaUploadPage from './MediaUploadPage';
 
 class Main extends Component{
    render(){
@@ -18,6 +19,7 @@ class Main extends Component{
         <Header />
         <Route path="/signup" component={Signup} />
         <Redirect to="/signup" /> 
+        <Route path="/media-upload" component={MediaUploadPage} />
         <Footer />
 
       </div>
