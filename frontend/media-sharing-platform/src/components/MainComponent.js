@@ -17,9 +17,13 @@ class Main extends Component{
     return (
       <div>
         <Header />
-        <Route path="/signup" component={Signup} />
-        <Redirect to="/signup" /> 
-        <Route path="/media-upload" component={MediaUploadPage} />
+        
+        <Switch>
+          <Route exact path="/signup" component={Signup} />
+          <Route path="/media-upload" component={MediaUploadPage} />
+          <Redirect to="/signup" /> 
+        </Switch>
+        
         <Footer />
 
       </div>

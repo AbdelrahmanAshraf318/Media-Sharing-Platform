@@ -16,6 +16,7 @@ class Header extends Component {
       password: '',
       isNavOpen: false,
       isModalOpen: false,
+      isLoggedIn: false,
       remember: false
     };
 
@@ -24,6 +25,7 @@ class Header extends Component {
     this.handleLogin = this.handleLogin.bind(this);
     this.handleInputChange = this.handleInputChange.bind(this);
   }
+
 
   toggleNav() {
     this.setState({ isNavOpen: !this.state.isNavOpen });
@@ -48,6 +50,7 @@ class Header extends Component {
     event.preventDefault();
     this.toggleModal();
     
+
     const { username, password, remember } = this.state;
     console.log("Username:", username);  // Check if username is correctly set
     console.log("Password:", password);  // Check if password is correctly set
@@ -65,7 +68,9 @@ class Header extends Component {
       alert(`Welcome ${username}!`);
       
       // Redirect the user after successful login
+      
       window.location.href = '/media-upload';
+      
     } catch (err) {
         console.log(err);
       alert('Invalid username or password');

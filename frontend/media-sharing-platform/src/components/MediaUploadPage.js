@@ -1,12 +1,17 @@
 import React, { Component } from 'react';
 import axios from 'axios';
+import { 
+  Nav, Navbar, NavbarBrand, NavbarToggler, Collapse, 
+  NavItem, Modal, ModalHeader, ModalBody, Button, 
+  FormGroup, Label, Input, Form 
+} from 'reactstrap';
 
 class MediaUploadPage extends Component {
   constructor(props) {
     super(props);
     this.state = {
       selectedFile: null,
-      mediaList: [],
+      message: "",
     };
 
     this.handleFileChange = this.handleFileChange.bind(this);
@@ -20,16 +25,24 @@ class MediaUploadPage extends Component {
   }
 
   async handleUpload() {
+
+    if (!this.state.selectedFile) {
+      this.state.message = 'Please select a file first.';
+      return;
+    }
+
     const formData = new FormData();
     formData.append('file', this.state.selectedFile);
 
     try {
-      const response = await axios.post('http://localhost:4000/upload', formData, {
-        headers: { 'Content-Type': 'multipart/form-data' }
+      const response = await axios.post('http://localhost:4000/api/upload', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
       });
-      this.setState({ mediaList: [...this.state.mediaList, response.data] });
+      alert('File uploaded successfully');
     } catch (error) {
-      console.error("File upload error:", error);
+      console.error('File upload error:', error);
     }
   }
 
@@ -47,30 +60,16 @@ class MediaUploadPage extends Component {
 
   render() {
     return (
-      <div>
-        <h2>Upload Media</h2>
-        <input type="file" onChange={this.handleFileChange} />
-        <button onClick={this.handleUpload}>Upload</button>
-
-        <h2>Media List</h2>
-        <ul>
-          {this.state.mediaList.map((media, index) => (
-            <li key={index}>
-              {media.type === 'image' ? (
-                <img src={media.url} alt="uploaded media" width="200" />
-              ) : (
-                <video controls width="200">
-                  <source src={media.url} type="video/mp4" />
-                </video>
-              )}
-              <div>
-                <button onClick={() => this.handleLike(index)}>Like {media.likes}</button>
-                <button onClick={() => this.handleDislike(index)}>Dislike {media.dislikes}</button>
-              </div>
-            </li>
-          ))}
-        </ul>
-      </div>
+      <div className='upload-container'>
+        <div className='row row-content'>
+          <h2 className="upload-title">Upload Media</h2>
+          <div className='upload-form'>
+            <Input className="file-input" type="file" onChange={this.handleFileChange} />
+            <Button onClick={this.handleUpload} type="submit" value="submit" className="upload-btn">Upload</Button>
+          </div>
+          {this.message && <p className="upload-message">{this.message}</p>}
+        </div>
+    </div>
     );
   }
 }
