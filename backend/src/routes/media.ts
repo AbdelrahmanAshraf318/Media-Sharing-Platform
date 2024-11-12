@@ -1,14 +1,16 @@
 import express, { Request, Response } from 'express';
 import { Media } from '../models/Media';
 import multer from 'multer';
+import * as path from 'path';
 import MediaController from '../controllers/MediaController';
 
 const mediaRouter = express.Router();
 
 // Configure Multer for file uploads
-const upload = multer({ dest: 'uploads/' });
+mediaRouter.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
-mediaRouter.post('/upload', upload.single('file'), MediaController.Upload);
+
+mediaRouter.post('/upload', MediaController.Upload);
 
 // Like a media item
 mediaRouter.post('/:id/like', MediaController.likeMedia);

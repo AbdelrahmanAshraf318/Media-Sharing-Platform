@@ -11,9 +11,12 @@ class MediaController {
         }
       
         try {
+
+            const fileUrl = `${req.protocol}://${req.get('host')}/uploads/${req.file.filename}`;
+
             const newMedia = new Media({
                 filename: req.file.filename,
-                path: req.file.path,
+                url: fileUrl,
                 contentType: req.file.mimetype,
             });
             await newMedia.save();

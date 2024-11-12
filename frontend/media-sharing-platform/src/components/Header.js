@@ -4,8 +4,9 @@ import {
   NavItem, Modal, ModalHeader, ModalBody, Button, 
   FormGroup, Label, Input, Form 
 } from 'reactstrap';
-import { NavLink, withRouter  } from 'react-router-dom';
+import { NavLink, Navigate } from 'react-router-dom';
 import axios from 'axios';
+import withNavigate from './withNavigate';
 
 class Header extends Component {
   constructor(props) {
@@ -16,23 +17,22 @@ class Header extends Component {
       password: '',
       isNavOpen: false,
       isModalOpen: false,
-      isLoggedIn: false,
+      isLoggedIn: !!(localStorage.getItem('token') || sessionStorage.getItem('token')),
       remember: false
     };
 
     this.toggleNav = this.toggleNav.bind(this);
     this.toggleModal = this.toggleModal.bind(this);
     this.handleLogin = this.handleLogin.bind(this);
+    this.handleLogout = this.handleLogout.bind(this);
     this.handleInputChange = this.handleInputChange.bind(this);
   }
-
 
   toggleNav() {
     this.setState({ isNavOpen: !this.state.isNavOpen });
   }
 
   toggleModal() {
-    console.log("Modal toggle clicked!");
     this.setState({ isModalOpen: !this.state.isModalOpen });
   }
 
@@ -49,33 +49,37 @@ class Header extends Component {
   async handleLogin(event) {
     event.preventDefault();
     this.toggleModal();
-    
 
     const { username, password, remember } = this.state;
-    console.log("Username:", username);  // Check if username is correctly set
-    console.log("Password:", password);  // Check if password is correctly set
 
     try {
-      const response = await axios.post('http://localhost:4000/api/login', { username, password },
-        { headers: { 'Content-Type': 'application/json' }});
+      const response = await axios.post('http://localhost:4000/api/login', { username, password }, {
+        headers: { 'Content-Type': 'application/json' }
+      });
       const { token } = response.data;
       
-      /*if (this.state.remember) {
+      if (remember) {
         localStorage.setItem('token', token);
       } else {
         sessionStorage.setItem('token', token);
-      }*/
-      localStorage.setItem('token', token);
+      }
+
+      this.setState({ isLoggedIn: true });
       alert(`Welcome ${username}!`);
-      
-      // Redirect the user after successful login
-      //this.props.history.push('/media-upload');
-      window.location.href = '/media-upload';
-      
+
     } catch (err) {
-        console.log(err);
+      console.log(err);
       alert('Invalid username or password');
     }
+  }
+
+  handleLogout() {
+    localStorage.removeItem('token');
+    sessionStorage.removeItem('token');
+    this.setState({ isLoggedIn: false });
+    alert('You have been logged out.');
+
+    this.props.navigate('/signup');
   }
 
   render() {
@@ -94,14 +98,23 @@ class Header extends Component {
                   <NavLink className="nav-link" to='/about'><span className="fa fa-info fa-lg"></span> About Us</NavLink>
                 </NavItem>
                 <NavItem>
+                  <NavLink className="nav-link" to='/menu'><span className="fa fa-list fa-lg"></span> Menu</NavLink>
+                </NavItem>
+                <NavItem>
                   <NavLink className="nav-link" to='/contact'><span className="fa fa-address-card fa-lg"></span> Contact Us</NavLink>
                 </NavItem>
               </Nav>
               <Nav className="ml-auto" navbar>
                 <NavItem>
-                  <Button outline onClick={this.toggleModal}>
-                    <span className='fa fa-sign-in fa-lg'></span> Login
-                  </Button>
+                  {this.state.isLoggedIn ? (
+                    <Button outline onClick={this.handleLogout}>
+                      <span className='fa fa-sign-out fa-lg'></span> Logout
+                    </Button>
+                  ) : (
+                    <Button outline onClick={this.toggleModal}>
+                      <span className='fa fa-sign-in fa-lg'></span> Login
+                    </Button>
+                  )}
                 </NavItem>
               </Nav>
             </Collapse>
@@ -146,9 +159,11 @@ class Header extends Component {
             </Form>
           </ModalBody>
         </Modal>
+        
+        {this.state.isLoggedIn && <Navigate to="/media-upload" replace />}
       </>
     );
   }
 }
 
-export default Header;
+export default withNavigate(Header);
