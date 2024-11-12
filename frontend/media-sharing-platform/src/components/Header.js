@@ -4,7 +4,7 @@ import {
   NavItem, Modal, ModalHeader, ModalBody, Button, 
   FormGroup, Label, Input, Form 
 } from 'reactstrap';
-import { NavLink } from 'react-router-dom';
+import { NavLink, withRouter  } from 'react-router-dom';
 import axios from 'axios';
 
 class Header extends Component {
@@ -60,15 +60,16 @@ class Header extends Component {
         { headers: { 'Content-Type': 'application/json' }});
       const { token } = response.data;
       
-      if (this.state.remember) {
+      /*if (this.state.remember) {
         localStorage.setItem('token', token);
       } else {
         sessionStorage.setItem('token', token);
-      }
+      }*/
+      localStorage.setItem('token', token);
       alert(`Welcome ${username}!`);
       
       // Redirect the user after successful login
-      
+      //this.props.history.push('/media-upload');
       window.location.href = '/media-upload';
       
     } catch (err) {
@@ -91,9 +92,6 @@ class Header extends Component {
                 </NavItem>
                 <NavItem>
                   <NavLink className="nav-link" to='/about'><span className="fa fa-info fa-lg"></span> About Us</NavLink>
-                </NavItem>
-                <NavItem>
-                  <NavLink className="nav-link" to='/menu'><span className="fa fa-list fa-lg"></span> Menu</NavLink>
                 </NavItem>
                 <NavItem>
                   <NavLink className="nav-link" to='/contact'><span className="fa fa-address-card fa-lg"></span> Contact Us</NavLink>
