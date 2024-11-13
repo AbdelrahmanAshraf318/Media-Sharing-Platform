@@ -15,7 +15,7 @@ app.use(cors());
 app.use(bodyParser.json());
 app.use(express.urlencoded({extended: false}));
 
-app.use(express.static(path.join(__dirname, 'uploads')));
+//app.use(express.static(path.join(__dirname, 'uploads')));
 
 const MONGO_URL = "mongodb+srv://abdelrahmanashraf25102000:NWwAC5LJX6zNVA56@cluster0.1h0ws.mongodb.net/media-app?retryWrites=true&w=majority&appName=Cluster0";
 mongoose.connect(MONGO_URL)
@@ -29,7 +29,7 @@ mongoose.connect(MONGO_URL)
 app.use('/api', router);
 app.use('/api', mediaRouter);
 
-
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 app.listen(4000, () => {
     console.log("Server is running on port 4000");

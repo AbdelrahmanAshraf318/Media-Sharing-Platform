@@ -24,37 +24,8 @@ class SignUp extends Component {
     }
 
     handleInputChange(event) {
-        const target = event.target;
-        const value = target.type === 'checkbox' ? target.checked : target.value;
-        const name = target.name;
-
-        this.setState({
-            [name]: value
-        });
-    }
-
-    async handleSubmit(event) {
-        event.preventDefault();
-        const errors = this.validate(this.state.name, this.state.email, this.state.password, this.state.username);
-        if (errors.name || errors.email || errors.password || errors.username) {
-            alert("Please fix the errors before submitting.");
-            return;
-        }
-
-        try {
-            const response = await axios.post('http://localhost:4000/api/signup', {
-                name: this.state.name,
-                email: this.state.email,
-                username: this.state.username,
-                password: this.state.password,
-            });
-            alert('User created successfully');
-        } catch (err) {
-            alert('User registration failed');
-        }
-
-        console.log("Current state is: " + JSON.stringify(this.state));
-        alert("Current state is: " + JSON.stringify(this.state));
+        const { name, value } = event.target;
+        this.setState({ [name]: value });
     }
 
     handleBlur = (field) => (evt) => {
@@ -81,13 +52,42 @@ class SignUp extends Component {
             errors.email = 'Please enter a valid email address.'
         }
         if (this.state.touched.username && this.state.username.length < 5) {
-            errors.username = 'Username length should be >= 5 characters'
+            errors.username = 'Username length should be >= 8 characters'
         }
         return errors;
     }
 
+    async handleSubmit(event) {
+        event.preventDefault();
+        const errors = this.validate(this.state.name, this.state.email, this.state.password, this.state.username);
+        if (Object.values(errors).some(error => error !== '')) {
+            alert("Please fix the errors before submitting.");
+            return;
+        }
+
+        try {
+            const response = await axios.post('http://localhost:4000/api/signup', {
+                name: this.state.name,
+                email: this.state.email,
+                username: this.state.username,
+                password: this.state.password,
+            });
+            alert('User created successfully');
+        } catch (err) {
+            alert('User registration failed');
+        }
+
+        console.log("Current state is: " + JSON.stringify(this.state));
+        alert("Current state is: " + JSON.stringify(this.state));
+    }
+
+    
+
+    
+
     render() {
         const errors = this.validate(this.state.name, this.state.email, this.state.password, this.state.username);
+        const isFormValid = !Object.values(errors).some(error => error !== '');
         return (
             <div className="container">
                 <div className="row row-content">

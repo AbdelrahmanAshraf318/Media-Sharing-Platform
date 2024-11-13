@@ -22,13 +22,14 @@ const storage = multer.diskStorage({
 mediaRouter.post('/upload', upload.single('media'), MediaController.Upload);
 
 // Like a media item
-mediaRouter.put('/like/id', MediaController.likeMedia);
+mediaRouter.put('/like/:id', MediaController.likeMedia);
 
 // Dislike a media item
-mediaRouter.put('/dislike/id', MediaController.dislikeMedia);
+mediaRouter.put('/dislike/:id', MediaController.dislikeMedia);
 
 // Get All media
 mediaRouter.get('/media', MediaController.getAllMedia);
+
 
 
 export default mediaRouter;

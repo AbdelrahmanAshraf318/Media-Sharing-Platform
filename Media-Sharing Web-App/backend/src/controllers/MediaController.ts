@@ -26,13 +26,12 @@ class MediaController {
     public static async likeMedia(req: express.Request, res: express.Response, next: express.NextFunction): Promise<void>{
       let { id } = req.params;
       
-    id = id.replace(/^:/, ''); // Sanitizing the ID
-      console.log("Received like request for ID:", id);
-
+    
+    // Validate if the ID is a valid ObjectId
     if (!mongoose.Types.ObjectId.isValid(id)) {
       res.status(400).json({ message: 'Invalid media ID' });
-        return;
-    }
+      return ;
+  }
 
     try {
         const media = await Media.findOneAndUpdate(
