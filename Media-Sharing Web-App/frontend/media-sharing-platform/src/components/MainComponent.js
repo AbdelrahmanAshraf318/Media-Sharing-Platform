@@ -5,8 +5,7 @@ import SignUp from './SignUp';
 import Header from './Header';
 import Footer from './Footer';
 import { Routes, Route, Navigate } from 'react-router-dom';
-import MediaUploadPage from './MediaUploadPage';
-import MediaRetrievalPage from './MediaRetrievalPage';
+import MediaDashboard from './MediaDashboard';
 
 // ProtectedRoute component
 const ProtectedRoute = ({ element: Element }) => {
@@ -15,18 +14,26 @@ const ProtectedRoute = ({ element: Element }) => {
 };
 
 class Main extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      isLoggedIn: !!(localStorage.getItem('token') || sessionStorage.getItem('token')),
+    };
+  }
+
   render() {
     return (
       <div>
         <Header />
-        
         <Routes>
           <Route path="/signup" element={<SignUp />} />
-          <Route path="/media-upload" element={<ProtectedRoute element={MediaUploadPage} />} />
-          <Route path="/media-retrieval" element={<ProtectedRoute element={MediaRetrievalPage} />} />
-          <Route path="*" element={<Navigate to="/signup" />} />
+
+          {/* Protected route for the combined dashboard */}
+          <Route path="/media-dashboard" element={<ProtectedRoute element={MediaDashboard} />} />
+
+          {/* Default route */}
+          <Route path="*" element={<Navigate to={this.state.isLoggedIn ? "/media-dashboard" : "/signup"} />} />
         </Routes>
-        
         <Footer />
       </div>
     );

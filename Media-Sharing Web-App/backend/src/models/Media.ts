@@ -4,15 +4,12 @@ import mongoose from "mongoose";
 // Create the schema
 const MediaSchema = new mongoose.Schema(
     {
-        filename: {
+        
+        url: {
             type: String,
             required: true
         },
-        path: {
-            type: String,
-            required: true
-        },
-        contentType: {
+        type: {
             type: String,
             required: true
         },

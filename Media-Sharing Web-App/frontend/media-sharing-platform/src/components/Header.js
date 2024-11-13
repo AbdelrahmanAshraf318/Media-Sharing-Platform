@@ -6,7 +6,7 @@ import {
 } from 'reactstrap';
 import { NavLink, Navigate } from 'react-router-dom';
 import axios from 'axios';
-import withNavigate from './withNavigate';
+import withNavigate from './withNavigate';  // Assuming withNavigate is correctly implemented
 
 class Header extends Component {
   constructor(props) {
@@ -18,7 +18,8 @@ class Header extends Component {
       isNavOpen: false,
       isModalOpen: false,
       isLoggedIn: !!(localStorage.getItem('token') || sessionStorage.getItem('token')),
-      remember: false
+      remember: false,
+      redirectToSignup: false
     };
 
     this.toggleNav = this.toggleNav.bind(this);
@@ -65,7 +66,11 @@ class Header extends Component {
       }
 
       this.setState({ isLoggedIn: true });
+      localStorage.setItem('loggedIn', this.state.isLoggedIn );
       alert(`Welcome ${username}!`);
+
+      // After successful login, redirect
+      this.props.navigate('/media-dashboard');  // Using navigate function from withNavigate
 
     } catch (err) {
       console.log(err);
@@ -77,12 +82,18 @@ class Header extends Component {
     localStorage.removeItem('token');
     sessionStorage.removeItem('token');
     this.setState({ isLoggedIn: false });
-    alert('You have been logged out.');
 
-    this.props.navigate('/signup');
+    alert('You have been logged out.');
+    
+    // Redirect after logout
+    this.props.navigate('/signup');  // Using navigate function from withNavigate
   }
 
   render() {
+    if (this.state.redirectToSignup) {
+      return <Navigate to="/signup" replace />;
+    }
+
     return (
       <>
         <Navbar dark expand="md">
@@ -159,8 +170,6 @@ class Header extends Component {
             </Form>
           </ModalBody>
         </Modal>
-        
-        {this.state.isLoggedIn && <Navigate to="/media-upload" replace />}
       </>
     );
   }
