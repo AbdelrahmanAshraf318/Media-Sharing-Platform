@@ -82,13 +82,13 @@ class MediaRetrievalPage extends Component {
                 {mediaList.map(media => (
                     <div key={media._id} style={{ marginBottom: '20px' }}>
                         {media.type === 'image' ? (
-                            <img src={`http://localhost:4000${media.url}`} alt="Media" style={{ width: '100%', maxWidth: '100px' }} />
+                            <img src={`http://localhost:4000${media.url}`} alt="Media" style={{ width: '100%', maxWidth: '500px' }} />
                         ) : (
                             <video src={`http://localhost:4000${media.url}`} controls style={{ width: '100%', maxWidth: '500px' }} />
                         )}
-                        <div>
-                            <button onClick={() => this.handleLike(media._id)}>Like {media.likes}</button>
-                            <button onClick={() => this.handleDislike(media._id)}>Dislike {media.dislikes}</button>
+                        <div className='container'>
+                            <Button onClick={() => this.handleLike(media._id)}>Like {media.likes}</Button>
+                            <Button onClick={() => this.handleDislike(media._id)}>Dislike {media.dislikes}</Button>
                         </div>
                     </div>
                 ))}
