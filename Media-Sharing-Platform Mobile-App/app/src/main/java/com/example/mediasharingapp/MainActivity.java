@@ -1,5 +1,6 @@
 package com.example.mediasharingapp;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -94,8 +95,13 @@ public class MainActivity extends AppCompatActivity {
                             AlertDialog.Builder builder1 = new AlertDialog.Builder(MainActivity.this);
                             builder1.setTitle(result.getName());
                             builder1.setMessage(result.getEmail());
-
                             builder1.show();
+
+                            Intent intent = new Intent(MainActivity.this, MediaDashBoard.class);
+                            startActivity(intent);
+
+                            // Optional: finish MainActivity so user cannot return to login screen
+                            finish();
 
                         }else if(response.code() == 404){
                             Toast.makeText(MainActivity.this,

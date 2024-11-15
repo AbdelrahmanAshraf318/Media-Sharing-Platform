@@ -89,6 +89,7 @@ class MediaController {
         try {
             const mediaItems = await Media.find(); // Retrieve all media documents
             res.status(200).json(mediaItems);
+            console.log("Media Retrieval Successfully!");
           } catch (error) {
             res.status(500).json({ error: 'Error fetching media items' });
           }
