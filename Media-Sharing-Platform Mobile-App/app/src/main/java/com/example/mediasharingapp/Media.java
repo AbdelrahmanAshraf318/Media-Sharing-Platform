@@ -34,4 +34,12 @@ public class Media {
     public int getDislikes() {
         return dislikes;
     }
+
+    public void setLikes(int likes) {
+        this.likes = likes;
+    }
+
+    public void setDislikes(int dislikes) {
+        this.dislikes = dislikes;
+    }
 }

@@ -152,6 +152,12 @@ public class MainActivity extends AppCompatActivity {
                                 Toast.makeText(MainActivity.this ,
                                         "Signed up successfully",
                                         Toast.LENGTH_LONG).show();
+
+                                Intent intent = new Intent(MainActivity.this, MediaDashBoard.class);
+                                startActivity(intent);
+
+                                // Optional: finish MainActivity so user cannot return to login screen
+                                finish();
                             }else if(response.code() == 400){
                                 Toast.makeText(MainActivity.this,
                                         "Aleardy Registered",
