@@ -30,7 +30,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".MediaDashBoard"
+            android:name=".media.MediaDashBoard"
             android:exported="true">
 
                     <intent-filter>
@@ -39,7 +39,7 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".UploadMediaActivity" />
+        <activity android:name=".media.UploadMediaActivity" />
 
     </application>
 

@@ -1,4 +1,4 @@
-package com.example.mediasharingapp;
+package com.example.mediasharingapp.media;
 
 import java.io.File;
 

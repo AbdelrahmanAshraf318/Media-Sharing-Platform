@@ -1,4 +1,4 @@
-package com.example.mediasharingapp;
+package com.example.mediasharingapp.media;
 
 
 import android.Manifest;
@@ -18,8 +18,9 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import com.bumptech.glide.Glide;
+import com.example.mediasharingapp.R;
+import com.example.mediasharingapp.service.RetrofitInterface;
 
-import java.io.File;
 import java.io.InputStream;
 
 import okhttp3.MediaType;
@@ -38,6 +39,8 @@ public class UploadMediaActivity extends AppCompatActivity {
     private ImageView selectedImageView;
     private Button uploadButton;
     private Button selectImageButton;
+
+    private Button see_media;
     private Uri selectedImageUri;
 
     @Override
@@ -48,6 +51,8 @@ public class UploadMediaActivity extends AppCompatActivity {
         selectedImageView = findViewById(R.id.selectedImageView);
         uploadButton = findViewById(R.id.uploadButton);
         selectImageButton = findViewById(R.id.selectImageButton);
+        see_media = findViewById(R.id.view_media);
+
 
         // Check and request permission for storage access
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE)
@@ -67,6 +72,16 @@ public class UploadMediaActivity extends AppCompatActivity {
                 Toast.makeText(this, "Please select an image", Toast.LENGTH_SHORT).show();
             }
         });
+
+
+        see_media.setOnClickListener(v -> {
+            Intent intent = new Intent(UploadMediaActivity.this, MediaDashBoard.class);
+            startActivity(intent);
+
+            // Optional: finish MainActivity so user cannot return to login screen
+            finish();
+        });
+
     }
 
     // Open file chooser for image/video selection

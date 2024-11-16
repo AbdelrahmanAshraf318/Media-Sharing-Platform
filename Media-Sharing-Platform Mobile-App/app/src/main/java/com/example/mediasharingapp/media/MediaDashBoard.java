@@ -1,4 +1,4 @@
-package com.example.mediasharingapp;
+package com.example.mediasharingapp.media;
 
 import android.os.Bundle;
 import android.util.Log;
@@ -13,6 +13,10 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.example.mediasharingapp.R;
+import com.example.mediasharingapp.service.RetrofitInterface;
+import com.example.mediasharingapp.models.Media;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
