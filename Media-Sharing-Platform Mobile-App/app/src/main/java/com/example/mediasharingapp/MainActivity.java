@@ -97,7 +97,7 @@ public class MainActivity extends AppCompatActivity {
                             builder1.setMessage(result.getEmail());
                             builder1.show();
 
-                            Intent intent = new Intent(MainActivity.this, MediaDashBoard.class);
+                            Intent intent = new Intent(MainActivity.this, UploadMediaActivity.class);
                             startActivity(intent);
 
                             // Optional: finish MainActivity so user cannot return to login screen
@@ -153,7 +153,7 @@ public class MainActivity extends AppCompatActivity {
                                         "Signed up successfully",
                                         Toast.LENGTH_LONG).show();
 
-                                Intent intent = new Intent(MainActivity.this, MediaDashBoard.class);
+                                Intent intent = new Intent(MainActivity.this, UploadMediaActivity.class);
                                 startActivity(intent);
 
                                 // Optional: finish MainActivity so user cannot return to login screen
