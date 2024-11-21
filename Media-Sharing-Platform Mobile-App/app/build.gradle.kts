@@ -43,6 +43,7 @@ dependencies {
     implementation("com.squareup.retrofit2:converter-gson:2.3.0")
     implementation("com.google.android.material:material:1.10.0")
     implementation("androidx.viewpager2:viewpager2:1.1.0-beta01")
+    implementation("androidx.constraintlayout:constraintlayout:2.1.4")
     implementation("com.github.bumptech.glide:glide:4.15.1")
     annotationProcessor("com.github.bumptech.glide:compiler:4.15.1")
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")

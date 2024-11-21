@@ -21,7 +21,7 @@ app.use(express.urlencoded({extended: false}));
 
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
-const MONGO_URL = "mongodb+srv://abdelrahmanashraf25102000:NWwAC5LJX6zNVA56@cluster0.1h0ws.mongodb.net/media-app?retryWrites=true&w=majority&appName=Cluster0";
+const MONGO_URL = "mongodb+srv://<db_name>:<db_password>/<cluster_name>?";
 mongoose.connect(MONGO_URL)
 .then(() => {
     console.log("Connected to Database!");    
